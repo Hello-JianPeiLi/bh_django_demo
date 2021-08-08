@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
+<body>
+<h1>图书首页</h1>
+<a href="/create">新增</a>
+<ul>
+    {% for book in books %}
+        <li><a href="/detail/{{ book.id }}">{{ book }}</a>-----<a href="/remove/{{ book.id }}">删除</a></li>
+    {% endfor %}
+</ul>
+</body>
+</html>

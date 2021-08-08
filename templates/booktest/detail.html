@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>英雄展示</title>
+</head>
+<body>
+<h1>英雄信息</h1>
+<ul>
+    {% for hero in heros %}
+        <li>{{ hero }}---{{ hero.hcomment }}</li>
+    {% empty %}
+        没有英雄信息。。。
+    {% endfor %}
+</ul>
+</body>
+</html>
