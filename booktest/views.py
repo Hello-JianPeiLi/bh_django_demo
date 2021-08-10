@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.shortcuts import HttpResponse
 from django.shortcuts import HttpResponseRedirect
+from django.http import JsonResponse
 from booktest.models import BookInfo
 from booktest.models import HeroInfo
 from booktest.models import AreaInfo
 from datetime import date
+import json
 
 
 # Create your views here.
@@ -44,3 +46,27 @@ def area(request):
     parent = area.aParent
     children = area.areainfo_set.all()
     return render(request, 'booktest/area.html', {"area": area, "parent": parent, "children": children})
+
+
+def login(request):
+    return render(request, 'booktest/login.html', {})
+
+
+def check(request):
+    username = request.POST.get('username')
+    passwrod = request.POST.get('password')
+    print(username, "---", passwrod)
+    json_data = {"username": username, "password": passwrod}
+    print(type(json_data))
+    return HttpResponse("pok")
+    # return HttpResponse(username, passwrod)
+
+
+def login_ajax(request):
+    # ajax 使用application/json 则使用body获取数据
+    body = json.loads(request.body.decode('utf-8'))
+    print(body)
+    username = body.get('username')
+    password = body.get('password')
+    if username != 'libai' and password == '123':
+        return JsonResponse({'msg': '登录成功', 'code': '1'})

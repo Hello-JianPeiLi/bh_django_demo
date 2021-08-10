@@ -7,4 +7,7 @@ urlpatterns = [
     url(r'^remove/(\d+)$', views.remove),
     url(r'^detail/(\d+)$', views.detail),
     url(r'^area$', views.area),
+    url(r'^login$', views.login),
+    url(r'^check$', views.check),
+    url(r'^login_ajax$', views.login_ajax),
 ]

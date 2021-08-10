@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var flag = $('#flag').val()
+            $('#loginAjax').click(function () {
+                const username = $('#username').val()
+                const password = $('#password').val()
+                console.log(flag)
+                $.ajax({
+                    url: '/login_ajax',
+                    type: 'post',
+                    contentType: 'application/json',
+                    data: {'username': username, 'password': password},
+                    success: function (data) {
+                        alert(data);
+                    }
+                })
+            })
+        })
+    </script>
+
+</head>
+<body>
+<h1>这是登录页面</h1>
+<div>
+    <input type="text" name="username" id="username"><br>
+    <input type="text" name="password" id="password"><br>
+    <input type="button" id="loginAjax" value="登录">
+    <label><input type="checkbox" name="flag" id="flag">记住账密</label>
+</div>
+
+</body>
+</html>
