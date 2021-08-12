@@ -10,4 +10,12 @@ urlpatterns = [
     url(r'^login$', views.login),
     url(r'^check$', views.check),
     url(r'^login_ajax$', views.login_ajax),
+    url(r'^index2$', views.index2),
+    url(r'^index_login$', views.index_login),
+    url(r'^template_login_check$', views.template_login_check),
+    url(r'^upload_file$', views.upload_file),
+    url(r'^handle_file$', views.handle_file),
+    url(r'^upload_ajax_file$', views.upload_ajax_file),
+    # 获取图片路径下发到web
+    url(r'^get_pic$', views.get_pic),
 ]

@@ -6,18 +6,18 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
         $(function () {
-            var flag = $('#flag').val()
             $('#loginAjax').click(function () {
                 const username = $('#username').val()
                 const password = $('#password').val()
-                console.log(flag)
+                const flag = $('#flag').is(':checked')
+                console.log(flag);
                 $.ajax({
                     url: '/login_ajax',
                     type: 'post',
-                    contentType: 'application/json',
-                    data: JSON.stringify({'username': username, 'password': password}),
+                    contentType: 'json',
+                    data: JSON.stringify({'username': username, 'password': password, 'flag': flag}),
                     success: function (data) {
-                        console.log(data);
+                        console.log(data)
                     }
                 })
             })
@@ -26,12 +26,21 @@
 
 </head>
 <body>
-<h1>这是登录页面</h1>
+<h1>这是登录页面Ajax请求</h1>
 <div>
     <input type="text" name="username" id="username"><br>
     <input type="text" name="password" id="password"><br>
     <input type="button" id="loginAjax" value="登录">
     <label><input type="checkbox" name="flag" id="flag">记住账密</label>
+</div>
+<h1>这是Form表单登录</h1>
+<div>
+    <form action="/check" method="post">
+        <input type="text" name="username" id="username" value="{{ username }}"><br>
+        <input type="text" name="password" id="password"><br>
+        <button>登录</button>
+        <label><input type="checkbox" name="flag" id="flag">记住账密</label>
+    </form>
 </div>
 
 </body>

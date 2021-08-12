@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>upload_file</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<h1>表单提交图片</h1>
+<div>
+    <form action="handle_file" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="pic"><br/>
+        <input type="submit" value="提交">
+    </form>
+</div>
+<h1>ajax提交图片</h1>
+<div>
+    <input type="file" name="pic" id="file_upload"><br/>
+    <input type="text" name="ap_name" id="ap_name">
+    <input type="button" value="提交" id="btn">
+</div>
+<div style="height: 600px;">
+    <input type="text" name="pic_name" id="d-pic" placeholder="输入图片名称" style="margin-top: 10px;">
+    <input type="button" value="提交" id="d-pic-btn">
+    <input type="button" value="回退" id="b-pic-btn">
+    <!-- <span style="display: inline-block">错误信息</span> -->
+    <span style="visibility:hidden;">错误信息</span>
+
+    <br/>
+    <img src="/static/booktest/media/wallhaven-x88o53.jpg" alt=""
+         style="height: 550px;width: 800px; margin:10px 0 0px 10px;border: 5px solid #81d4fa;border-radius: 10px; ">
+</div>
+<script type="text/javascript">
+    $(function () {
+        $('#btn').click(function () {
+            const form_data = new FormData();
+            const file_info = $('#file_upload')[0].files[0];
+            const ap_name = $('#ap_name').val()
+            form_data.append('file', file_info);
+            form_data.set('pic_name', ap_name);
+            console.log(form_data.get('pic_name'));
+            form_data.forEach((value, key) => {
+                console.log("key- %s: value- %s", key, value);
+            })
+            $.ajax({
+                url: '/upload_ajax_file',
+                type: 'post',
+                data: form_data,
+                dataType: 'formData',
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+        $('#d-pic-btn').click(function () {
+            const pic_name = $('#d-pic').val()
+            console.log(pic_name)
+            $.ajax({
+                url: '/get_pic',
+                type: 'post',
+                data: {'pic_name': pic_name},
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    if (data['status'] == 105) {
+                        $('img').attr('src', '/static/' + data['pic_path']);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log('走了错误的')
+                    console.log(textStatus)
+                }
+            })
+        });
+        $('#b-pic-btn').click(function (data) {
+            $('img').attr('src', '/static/booktest/media/wallhaven-x88o53.jpg')
+        });
+    });
+</script>
+</body>
+</html>

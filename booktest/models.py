@@ -61,5 +61,27 @@ class HeroInfo(models.Model):
 
 class AreaInfo(models.Model):
     """地区"""
-    atitle = models.CharField(max_length=20)
+    # 中文标题
+    atitle = models.CharField(verbose_name='地区', max_length=20)
     aParent = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_DEFAULT, default='没有省')
+
+    def title(self):
+        return self.atitle
+
+    def parent(self):
+        if self.aParent is None:
+            return 'null'
+        return self.aParent.atitle
+
+    parent.short_descriptions = '父级区域名称'
+
+    title.admin_order_field = 'atitle'
+    title.short_description = 'title属性改的地区'
+
+    def __str__(self):
+        return self.atitle
+
+
+class PicTest(models.Model):
+    pic_name = models.CharField(max_length=20, default='null', unique=True)
+    pic_path = models.ImageField(upload_to='booktest/media')
