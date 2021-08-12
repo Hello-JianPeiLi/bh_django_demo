@@ -1,6 +1,7 @@
 from django.contrib import admin
 from booktest.models import BookInfo
 from booktest.models import HeroInfo
+from booktest.models import PicTest
 
 
 # Register your models here.
@@ -17,5 +18,10 @@ class HeroInfoAdmin(admin.ModelAdmin):
     list_display = ['id', 'hname', 'hcomment', 'hbook']
 
 
+class PicTestAdmin(admin.ModelAdmin):
+    list_display = ['id', 'pic']
+
+
 admin.site.register(BookInfo, BookInfoAdmin)
 admin.site.register(HeroInfo, HeroInfoAdmin)
+admin.site.register(PicTest, PicTestAdmin)

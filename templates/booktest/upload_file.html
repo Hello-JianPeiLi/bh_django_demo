@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>upload_file</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<h1>表单提交图片</h1>
+<div>
+    <form action="handle_file" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="pic"><br/>
+        <input type="submit" value="提交">
+    </form>
+</div>
+<h1>ajax提交图片</h1>
+<div>
+    <input type="file" name="pic" id="file_upload"><br/>
+    <input type="button" value="提交" id="btn">
+</div>
+<script type="text/javascript">
+    $(function () {
+        $('#btn').click(function () {
+            const form_data = new FormData();
+            const file_info = $('#file_upload')[0].files[0];
+            form_data.append('file', file_info);
+            $.ajax({
+                url: '/upload_ajax_file',
+                type: 'post',
+                data: form_data,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    console.log(data);
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

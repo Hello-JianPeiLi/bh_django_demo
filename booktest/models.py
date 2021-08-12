@@ -63,3 +63,7 @@ class AreaInfo(models.Model):
     """地区"""
     atitle = models.CharField(max_length=20)
     aParent = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_DEFAULT, default='没有省')
+
+
+class PicTest(models.Model):
+    pic = models.ImageField(upload_to='booktest/media')
