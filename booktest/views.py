@@ -145,12 +145,37 @@ def handle_file(request):
     return HttpResponse('ok')
 
 
+# upload_ajax_file
 def upload_ajax_file(request):
     file_obj = request.FILES.get('file')
-    print(file_obj.name)
+    pic_name = request.POST.get('pic_name').strip()
+    print('file---', file_obj)
+    print('pic_name---', pic_name)
+    if file_obj is None:
+        return JsonResponse({'msg': '请上传图片', 'status': 102})
+    if pic_name == '':
+        return JsonResponse({'msg': '请输入图片名字', 'status': 103})
+    if PicTest.objects.filter(pic_name=pic_name):
+        return JsonResponse({'msg': '名字不能重复', 'status': 101})
     save_path = '%s/booktest/media/%s' % (settings.MEDIA_ROOT, file_obj.name)
     with open(save_path, 'wb') as f:
         for content in file_obj.chunks():
             f.write(content)
-    PicTest.objects.create(pic='booktest/media/%s' % file_obj.name)
-    return HttpResponse('ok')
+    PicTest.objects.create(pic_name=pic_name, pic_path='booktest/media/%s' % file_obj.name)
+    return JsonResponse({'res': '上传成功', 'status': 100})
+
+
+def get_pic(request):
+    pic_name = request.POST.get('pic_name')
+    print(pic_name)
+    query_pic = PicTest.objects.get(pic_name=pic_name)
+    if not query_pic:
+        return JsonResponse({'msg': '没有该图片', 'status': 104})
+    get_pic_path = str(query_pic.pic_path)
+    ret = {}
+    ret["msg"] = '获取图片成功'
+    ret["pic_path"] = get_pic_path
+    ret["status"] = 105
+    print(type(ret))
+    print(ret)
+    return JsonResponse(ret)

@@ -16,4 +16,6 @@ urlpatterns = [
     url(r'^upload_file$', views.upload_file),
     url(r'^handle_file$', views.handle_file),
     url(r'^upload_ajax_file$', views.upload_ajax_file),
+    # 获取图片路径下发到web
+    url(r'^get_pic$', views.get_pic),
 ]
