@@ -15,9 +15,9 @@
                     url: '/login_ajax',
                     type: 'post',
                     contentType: 'application/json',
-                    data: {'username': username, 'password': password},
+                    data: JSON.stringify({'username': username, 'password': password}),
                     success: function (data) {
-                        alert(data);
+                        console.log(data);
                     }
                 })
             })

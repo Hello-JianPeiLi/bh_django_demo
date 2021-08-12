@@ -53,20 +53,34 @@ def login(request):
 
 
 def check(request):
+    print(request.META['REMOTE_ADDR'])
     username = request.POST.get('username')
     passwrod = request.POST.get('password')
     print(username, "---", passwrod)
     json_data = {"username": username, "password": passwrod}
-    print(type(json_data))
+    # print(type(json_data))
     return HttpResponse("pok")
     # return HttpResponse(username, passwrod)
 
 
+def block_ip(func):
+    def wrapper(request, *args, **kwargs):
+        ip_list = ['127.0.0.1']
+        if request.META['REMOTE_ADDR'] in ip_list:
+            return HttpResponse('<h1>你这个ip不给访问</h1>')
+        else:
+            return func(request, *args, **kwargs)
+
+    return wrapper
+
+
+# @block_ip
 def login_ajax(request):
     # ajax 使用application/json 则使用body获取数据
+    print(request.META['REMOTE_ADDR'])
     body = json.loads(request.body.decode('utf-8'))
-    print(body)
     username = body.get('username')
     password = body.get('password')
-    if username != 'libai' and password == '123':
-        return JsonResponse({'msg': '登录成功', 'code': '1'})
+    # if username != 'libai' and password == '123':
+    # return JsonResponse({'msg': '登录成功', 'code': '1'})
+    return HttpResponse('pl')
