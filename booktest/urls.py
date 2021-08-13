@@ -24,4 +24,6 @@ urlpatterns = [
     url(r'^city/(\d+)$', views.city),
     # 获取dis
     url(r'^dis/(\d+)$', views.dis),
+    # 返回所有area
+    url(r'^all_area', views.all_area),
 ]

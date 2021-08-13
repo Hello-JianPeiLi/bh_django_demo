@@ -10,6 +10,7 @@ from datetime import date
 import json
 from test1 import settings
 from booktest.models import PicTest
+from django.core.paginator import Paginator
 
 
 # Create your views here.
@@ -45,10 +46,10 @@ def detail(request, bid):
 
 def area(request):
     area = AreaInfo.objects.get(atitle='广州市')
-    print(area.atitle)
     parent = area.aParent
     children = area.areainfo_set.all()
-    return render(request, 'booktest/area.html', {"area": area, "parent": parent, "children": children})
+    return render(request, 'booktest/area.html',
+                  {"area": area, "parent": parent, "children": children})
 
 
 # /login
@@ -217,10 +218,21 @@ def city(request, pid):
 
 # /dis/pid
 def dis(request, pid):
-    print(pid)
     areas = AreaInfo.objects.filter(aParent_id=pid)
     dis_list = list()
     for dis in areas:
         dis_list.append((dis.id, dis.atitle))
-    print(dis_list)
     return JsonResponse({'data': dis_list})
+
+
+def all_area(request):
+    areas = AreaInfo.objects.all().order_by('id')
+    paginator = Paginator(areas, 10)
+    areas = paginator.page(1)
+    area_list = list()
+    for area in areas:
+        area_list.append(area.atitle)
+    total = paginator.num_pages
+    count = paginator.count
+    num = areas.number
+    return JsonResponse({'page_total': total, 'data': area_list, 'count': count, 'current': num})

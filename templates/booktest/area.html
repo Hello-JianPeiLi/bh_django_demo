@@ -46,6 +46,14 @@
                     })
                 });
             });
+            // 获取所有area数据
+            $.get('/all_area', function (data) {
+                console.log(data);
+                $.each(data.data, function (index, item) {
+                    var li = $("<li value=" + item + ">" + item + "</li>")
+                    li.appendTo('#ul_area');
+                })
+            })
         });
     </script>
 </head>
@@ -73,6 +81,17 @@
         {% endfor %}
     </ul>
 </div>
-
+<h1>分页</h1>
+<div>
+    <ul id="ul_area">
+    </ul>
+    <ul id="pageIndex">
+        <a href="/all_area/">上一页</a>
+        <a href="/all_area/">1</a>
+        <a href="/all_area/">2</a>
+        <a href="/all_area/">3</a>
+        <a href="/all_area/">下一页</a>
+    </ul>
+</div>
 </body>
 </html>

@@ -74,7 +74,6 @@ class AreaInfo(models.Model):
         return self.aParent.atitle
 
     parent.short_descriptions = '父级区域名称'
-
     title.admin_order_field = 'atitle'
     title.short_description = 'title属性改的地区'
 
