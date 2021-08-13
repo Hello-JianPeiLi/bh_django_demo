@@ -3,18 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <title>自关联案例</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            const prov = $('#prov')
+            const city = $('#city');
+            const dis = $('#dis');
+            $.get('/get_prov', function (data) {
+                const res = data.data;
+                for (var i = 0; i < res.length; i++) {
+                    const id = res[i][0];
+                    const atitle = res[i][1];
+                    options_str = "<option value=" + id + ">" + atitle + "</option>"
+                    prov.append(options_str);
+                }
+            });
+            prov.change(function () {
+                const pid = $(this).val();
+                city.empty().append('<option>---请选择市---</option>');
+                dis.empty().append('<option>---请选择区---</option>');
+                $.get('/city/' + pid, function (data) {
+                    const res = data.data;
+                    $.each(res, function (index, item) {
+                        const id = item[0];
+                        const atitle = item[1];
+                        options_str = "<option value=" + id + ">" + atitle + "</option>"
+                        city.append(options_str);
+                    });
+                });
+            });
+            city.change(function () {
+                const pid = $(this).val();
+                dis.empty().append('<option>---请选择区---</option>');
+                $.get('dis/' + pid, function (data) {
+                    res = data.data;
+                    console.log(res);
+                    $.each(res, function (index, item) {
+                        const id = item[0]
+                        const atitle = item[1];
+                        options_str = "<option value=" + id + ">" + atitle + "</option>"
+                        dis.append(options_str)
+                    })
+                });
+            });
+        });
+    </script>
 </head>
 <body>
-<h1>当前地区</h1>
-{{ area.atitle }}
-<h1>上级地区</h1>
-{{ parent.atitle }}
-<h1>下级地区</h1>
-<ul>
-    {% for district in children %}
-        <li>{{ district.atitle }}</li>
-    {% endfor %}
-</ul>
+<div>
+    <select id="prov">
+        <option>---请选择省---</option>
+    </select>
+    <select id="city">
+        <option>---请选择市---</option>
+    </select>
+    <select id="dis">
+        <option>---请选择区---</option>
+    </select>
+</div>
+<div>
+    <h1>当前地区</h1>
+    {{ area.atitle }}
+    <h1>上级地区</h1>
+    {{ parent.atitle }}
+    <h1>下级地区</h1>
+    <ul>
+        {% for district in children %}
+            <li>{{ district.atitle }}</li>
+        {% endfor %}
+    </ul>
+</div>
 
 </body>
 </html>

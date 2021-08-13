@@ -193,3 +193,34 @@ def get_pic(request):
     print(ret)
     return JsonResponse(ret)
 
+
+# /get_prov
+def get_prov(request):
+    areas = AreaInfo.objects.filter(aParent__isnull=True)
+    prov_list = list()
+    for data in areas:
+        prov_list.append((data.id, data.atitle))
+    # print(len(prov_list))
+    return JsonResponse({'data': prov_list})
+
+
+# /city/pid
+def city(request, pid):
+    # area = AreaInfo.objects.get(id=pid)
+    # city = area.areainfo_set.all()
+    areas = AreaInfo.objects.filter(aParent_id=pid)
+    city_list = list()
+    for city in areas:
+        city_list.append((city.id, city.atitle))
+    return JsonResponse({'data': city_list})
+
+
+# /dis/pid
+def dis(request, pid):
+    print(pid)
+    areas = AreaInfo.objects.filter(aParent_id=pid)
+    dis_list = list()
+    for dis in areas:
+        dis_list.append((dis.id, dis.atitle))
+    print(dis_list)
+    return JsonResponse({'data': dis_list})

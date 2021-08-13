@@ -18,4 +18,10 @@ urlpatterns = [
     url(r'^upload_ajax_file$', views.upload_ajax_file),
     # 获取图片路径下发到web
     url(r'^get_pic$', views.get_pic),
+    # 获取省级地区
+    url(r'^get_prov$', views.get_prov),
+    # 获取city
+    url(r'^city/(\d+)$', views.city),
+    # 获取dis
+    url(r'^dis/(\d+)$', views.dis),
 ]
